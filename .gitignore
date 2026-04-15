@@ -188,3 +188,5 @@ dist
 .qoder/
 .qwen/
 .trae/
+.pi/
+skills-lock.json
