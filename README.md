@@ -18,6 +18,12 @@ Skills for day-to-day development.
   npx skills@latest add humanpluslabsoss/skills/explain
   ```
 
+- **docs** — Fetch documentation from `llms.txt` endpoints for supported libraries (Mastra, Drizzle, Hono, Zod, and more). Pass a library name and optional question to get answers grounded in the latest docs.
+
+  ```
+  npx skills@latest add humanpluslabsoss/skills/docs
+  ```
+
 ## 3rd Party Skills
 
 Skills from other authors that I find useful.
