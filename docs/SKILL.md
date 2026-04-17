@@ -15,20 +15,21 @@ description: "Fetch documentation from llms.txt URLs for supported libraries. Us
 
 ## Supported Libraries
 
-| Library                            | URL                                           |
-| ---------------------------------- | --------------------------------------------- |
-| Mastra (core, MCP, pg)             | https://mastra.ai/docs/llms.txt               |
-| Drizzle ORM + drizzle-kit          | https://orm.drizzle.team/llms-full.txt        |
-| Hono                               | https://hono.dev/llms-full.txt                |
-| Lefthook                           | https://lefthook.dev/llms-full.txt            |
-| OpenRouter                         | https://openrouter.ai/docs/llms-full.txt      |
-| Exa (exa-js)                       | https://exa.ai/docs/llms-full.txt             |
-| Firecrawl (@mendable/firecrawl-js) | https://docs.firecrawl.dev/llms-full.txt      |
-| Railway                            | https://railway.com/llms.txt                  |
-| Zod                                | https://zod.dev/llms-full.txt                 |
-| Doppler                            | https://docs.doppler.com/llms.txt             |
-| Turborepo                          | https://turborepo.com/repo/docs/llms.txt      |
-| Assistant UI                       | https://www.assistant-ui.com/llms-full.txt    |
+| Library                            | URL                                        |
+| ---------------------------------- | ------------------------------------------ |
+| Mastra (core, MCP, pg)             | https://mastra.ai/docs/llms.txt            |
+| Drizzle ORM + drizzle-kit          | https://orm.drizzle.team/llms-full.txt     |
+| Hono                               | https://hono.dev/llms-full.txt             |
+| Lefthook                           | https://lefthook.dev/llms-full.txt         |
+| OpenRouter                         | https://openrouter.ai/docs/llms-full.txt   |
+| Exa (exa-js)                       | https://exa.ai/docs/llms-full.txt          |
+| Firecrawl (@mendable/firecrawl-js) | https://docs.firecrawl.dev/llms-full.txt   |
+| Railway                            | https://railway.com/llms.txt               |
+| Zod                                | https://zod.dev/llms-full.txt              |
+| Doppler                            | https://docs.doppler.com/llms.txt          |
+| Turborepo                          | https://turborepo.com/repo/docs/llms.txt   |
+| Assistant UI                       | https://www.assistant-ui.com/llms-full.txt |
+| Composio                           | https://docs.composio.dev/llms.txt.        |
 
 ## Guidelines
 
