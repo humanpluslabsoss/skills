@@ -98,6 +98,12 @@ Skills from other authors that I find useful.
   npx skills@latest add https://github.com/vercel-labs/vercel-plugin --skill nextjs
   ```
 
+- **clerk** — Skills for adding authentication and user management (sign-in, sign-up, sessions, organizations) to your application.
+
+  ```
+  npx skills@latest add clerk/skills
+  ```
+
 ### Deployment & Infrastructure
 
 - **use-railway** — Skills for deploying and managing applications on Railway.
