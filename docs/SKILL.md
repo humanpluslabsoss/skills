@@ -29,7 +29,7 @@ description: "Fetch documentation from llms.txt URLs for supported libraries. Us
 | Doppler                            | https://docs.doppler.com/llms.txt          |
 | Turborepo                          | https://turborepo.com/repo/docs/llms.txt   |
 | Assistant UI                       | https://www.assistant-ui.com/llms-full.txt |
-| Composio                           | https://docs.composio.dev/llms.txt.        |
+| Composio                           | https://docs.composio.dev/llms-full.txt    |
 
 ## Guidelines
 
