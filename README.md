@@ -86,6 +86,18 @@ Skills from other authors that I find useful.
   npx skills@latest add https://github.com/openrouterteam/agent-skills --skill openrouter-typescript-sdk
   ```
 
+- **composio** — Skills for integrating 1000+ app toolkits (Gmail, GitHub, Slack, Notion, and more) into AI agents with authentication and tool execution.
+
+  ```
+  npx skills@latest add composiohq/skills
+  ```
+
+- **nextjs** — Skills for building applications with the Next.js React framework.
+
+  ```
+  npx skills@latest add https://github.com/vercel-labs/vercel-plugin --skill nextjs
+  ```
+
 ### Deployment & Infrastructure
 
 - **use-railway** — Skills for deploying and managing applications on Railway.
