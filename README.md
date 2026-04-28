@@ -9,19 +9,19 @@ Skills for day-to-day development.
 - **commit** — Create conventional commit messages for staged changes. Supports optional context to guide the commit type and description.
 
   ```
-  npx skills@latest add humanpluslabsoss/skills/commit
+  npx skills@latest add humanpluslabsoss/skills --skill commit
   ```
 
 - **explain** — Read-only mode for exploring and understanding your codebase without making changes. Use when you want to investigate code, check status, or learn about a project.
 
   ```
-  npx skills@latest add humanpluslabsoss/skills/explain
+  npx skills@latest add humanpluslabsoss/skills --skill explain
   ```
 
 - **docs** — Fetch documentation from `llms.txt` endpoints for supported libraries (Mastra, Drizzle, Hono, Zod, and more). Pass a library name and optional question to get answers grounded in the latest docs.
 
   ```
-  npx skills@latest add humanpluslabsoss/skills/docs
+  npx skills@latest add humanpluslabsoss/skills --skill docs
   ```
 
 ## 3rd Party Skills
@@ -33,31 +33,37 @@ Skills from other authors that I find useful.
 - **write-a-prd** — Create a PRD through an interactive interview, codebase exploration, and module design.
 
   ```
-  npx skills@latest add https://github.com/mattpocock/skills/write-a-prd
+  npx skills@latest add https://github.com/mattpocock/skills --skill write-a-prd
   ```
 
 - **prd-to-plan** — Turn a PRD into a multi-phase implementation plan using tracer-bullet vertical slices.
 
   ```
-  npx skills@latest add https://github.com/mattpocock/skills/prd-to-plan
+  npx skills@latest add https://github.com/mattpocock/skills --skill prd-to-plan
   ```
 
 - **prd-to-issues** — Break a PRD into independently-grabbable GitHub issues using vertical slices.
 
   ```
-  npx skills@latest add https://github.com/mattpocock/skills/prd-to-issues
+  npx skills@latest add https://github.com/mattpocock/skills --skill prd-to-issues
   ```
 
 - **grill-me** — Get relentlessly interviewed about a plan or design until every branch of the decision tree is resolved.
 
   ```
-  npx skills@latest add https://github.com/mattpocock/skills/grill-me
+  npx skills@latest add https://github.com/mattpocock/skills --skill grill-me
   ```
 
 - **improve-codebase-architecture** — Explore a codebase for architectural improvement opportunities, focusing on deepening shallow modules and improving testability.
 
   ```
-  npx skills@latest add https://github.com/mattpocock/skills/improve-codebase-architecture
+  npx skills@latest add https://github.com/mattpocock/skills --skill improve-codebase-architecture
+  ```
+
+- **ubiquitous-language** — Extract and formalize domain terminology from the current conversation into a consistent glossary, saved to `UBIQUITOUS_LANGUAGE.md`. Identifies ambiguities, resolves synonyms, and proposes canonical terms with opinionated choices.
+
+  ```
+  npx skills@latest add https://github.com/mattpocock/skills --skill ubiquitous-language
   ```
 
 ### Development
@@ -65,7 +71,7 @@ Skills from other authors that I find useful.
 - **tdd** — Test-driven development with a red-green-refactor loop. Builds features or fixes bugs one vertical slice at a time.
 
   ```
-  npx skills@latest add https://github.com/mattpocock/skills/tdd
+  npx skills@latest add https://github.com/mattpocock/skills --skill tdd
   ```
 
 - **drizzle-orm** — Skills for working with Drizzle ORM, a TypeScript ORM for SQL databases.
