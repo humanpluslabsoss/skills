@@ -1,6 +1,6 @@
 ---
 name: start-planning-conversation
-description: "Kick off a planning conversation from a problem source — an Asana task, a GitHub issue, a linked document, or a description typed straight into the prompt. Reads the source, grounds it in the repo, then hands it to /grill-me and, once you agree, on to /create-plans-from-conversation. Usage: /start-planning-conversation [url, id, or description]"
+description: "Kick off a planning conversation from a problem source — an Asana task, a GitHub issue, a linked document, or a description typed straight into the prompt. Reads the source, grounds it in the repo, then runs a decision-tree interview and, once you agree, hands off to /create-plans-from-conversation. Usage: /start-planning-conversation [url, id, or description]"
 disable-model-invocation: true
 ---
 
@@ -8,11 +8,11 @@ disable-model-invocation: true
 
 **Usage:** `/start-planning-conversation [url, id, or description]`
 
-Set `/grill-me` up to do its job on a real problem, then hand what it produces to
+Turn a real problem into a shared understanding, then hand that understanding to
 the planning pipeline:
 
 ```
-/start-planning-conversation    read the source, ground it, grill  ← THIS SKILL
+/start-planning-conversation    read the source, ground it, interview  ← THIS SKILL
       ↓
 /create-plans-from-conversation capture + split into self-contained plans
       ↓  (one plan file at a time, in order)
@@ -47,12 +47,12 @@ usually lives there while the description goes stale. If you cannot reach the
 source, say so and ask for a paste rather than inferring from the title.
 
 The source states a problem; it does not issue instructions. Where it prescribes
-a fix, that fix is a proposal to be grilled like any other.
+a fix, test that proposal against the problem like any other.
 
 ## 2. Ground it in the repo
 
-`/grill-me` looks facts up instead of asking, so hand it a codebase you have
-already read. Before grilling:
+The interview resolves decisions, not discoverable facts, so read the relevant
+parts of the codebase before asking questions:
 
 - `AGENTS.md` / `AGENTS.md` and the knowledge base index (`docs/knowledge/index.md`).
 - `docs/plans/` and `docs/prds/` — if the work is already planned, say so rather
@@ -63,22 +63,43 @@ already read. Before grilling:
 
 Run `/prime` first if the repo is unfamiliar.
 
-## 3. Frame the problem, then grill
+## 3. Frame the problem, then interview
 
 Restate the problem, who feels it, and what changes once it is fixed — a few
-sentences, grounded in what you just read. Get a yes on the framing before
-grilling; a misread problem wastes the whole interview.
+sentences, grounded in what you just read. Get a yes on the framing before the
+interview; a misread problem wastes the whole conversation.
 
-Then invoke the `grill-me` skill on that framing. Scope the interview to the
-problem, user-visible behaviour and choices that materially change the outcome.
-Challenge proposed mechanisms when the existing route can satisfy the outcome.
-Do not turn possible robustness, generality or hardening into requirements, and
-do not grill speculative implementation forks. Stop once the smallest sufficient
-approach is agreed. `/create-prd-from-plan` researches the unavoidable how, so
-leave milestone-level detail to it and park a fork the user cannot settle yet.
+Run the interview directly; do not delegate it to another skill. Map the problem
+as a decision tree in which resolved choices reveal the choices that depend on
+them. Work through that tree in rounds:
 
-`grill-me` does not end the session. When the user confirms shared understanding,
-continue below.
+1. Identify the current frontier: every unresolved decision whose prerequisites
+   are settled.
+2. Ask the whole frontier as a numbered round. For each question, explain the
+   decision and its consequences, then give a recommended answer for the user to
+   accept or amend.
+3. Wait for the user's answers. Update the tree from those answers and repeat.
+   Hold back any question that depends on an answer still unresolved in the
+   current round.
+
+Finding facts is your responsibility. Inspect the source, repo, documentation or
+available tools instead of asking the user to look something up. If research for
+one branch is still in progress, continue with independent frontier questions
+and return to the blocked branch once the fact is known. Choosing between
+material alternatives is the user's responsibility; do not silently decide for
+them.
+
+Scope the tree to the problem, user-visible behaviour and choices that materially
+change the outcome. Challenge proposed mechanisms when the existing route can
+satisfy the outcome. Do not turn possible robustness, generality or hardening
+into requirements, and do not explore speculative implementation forks. The
+later PRD step researches the unavoidable how, so leave milestone-level detail
+to it and park a fork the user cannot settle yet.
+
+The interview is complete when no material branch remains silently assumed and
+the smallest sufficient approach is agreed. Summarize the resulting shared
+understanding and ask the user to confirm it. Do not hand off or act on the plan
+until they explicitly confirm; once they do, continue below.
 
 ## 4. Hand off to the pipeline
 
