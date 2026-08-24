@@ -24,6 +24,16 @@ the planning pipeline:
 The deliverable is the shared understanding, held in the conversation. This skill
 writes no plans, no PRDs and no code.
 
+## Minimum-change rule
+
+Prefer the smallest change that satisfies the explicit outcome. Find the closest
+working implementation and extend it in place; a partial implementation counts
+as an existing route, not greenfield work. Do not add dependencies, abstractions,
+shared infrastructure, stronger guarantees or optional hardening unless the
+existing route demonstrably cannot meet an acceptance criterion. State that
+evidence and get explicit approval. Keep stronger alternatives separate from the
+recommended scope.
+
 ## 1. Read the source
 
 `$ARGUMENTS` is a link to a work item (an Asana task, a GitHub issue), a bare id,
@@ -44,10 +54,12 @@ a fix, that fix is a proposal to be grilled like any other.
 `/grill-me` looks facts up instead of asking, so hand it a codebase you have
 already read. Before grilling:
 
-- `AGENTS.md` / `CLAUDE.md` and the knowledge base index (`docs/knowledge/index.md`).
+- `AGENTS.md` / `AGENTS.md` and the knowledge base index (`docs/knowledge/index.md`).
 - `docs/plans/` and `docs/prds/` — if the work is already planned, say so rather
   than planning it again.
 - The code the change would touch: current behaviour, existing pattern, prior art.
+- The nearest existing operation, tool, prompt or workflow that can be expanded,
+  its present limitation, and the smallest code delta that removes it.
 
 Run `/prime` first if the repo is unfamiliar.
 
@@ -57,20 +69,28 @@ Restate the problem, who feels it, and what changes once it is fixed — a few
 sentences, grounded in what you just read. Get a yes on the framing before
 grilling; a misread problem wastes the whole interview.
 
-Then invoke the `grill-me` skill on that framing. It runs the interview. The one
-thing it does not know is where the interview stops: **this conversation settles
-what, why, and the shape of the approach.** `/create-prd-from-plan` does its own
-research and grilling on the how, so leave milestone-level detail to it, and park
-a fork the user cannot settle yet rather than treating it as closed.
+Then invoke the `grill-me` skill on that framing. Scope the interview to the
+problem, user-visible behaviour and choices that materially change the outcome.
+Challenge proposed mechanisms when the existing route can satisfy the outcome.
+Do not turn possible robustness, generality or hardening into requirements, and
+do not grill speculative implementation forks. Stop once the smallest sufficient
+approach is agreed. `/create-prd-from-plan` researches the unavoidable how, so
+leave milestone-level detail to it and park a fork the user cannot settle yet.
 
 `grill-me` does not end the session. When the user confirms shared understanding,
 continue below.
 
 ## 4. Hand off to the pipeline
 
-Post the summary: decisions and what settled them, alternatives rejected and why,
-parked forks, the rough sequence, manual ops (secrets, external services), risks.
-Downstream sessions never see this conversation — what is not written here is lost.
+Before hand-off, run a simplicity check: could an existing operation, tool,
+prompt or workflow deliver the outcome with a smaller change? If so, recommend
+that route and ask before retaining a stronger design. Agreement during
+exploration does not replace this final check.
+
+Post the summary: the existing route to extend, the minimum behaviour delta,
+binding decisions and what settled them, explicit non-goals, rejected or deferred
+alternatives, parked forks, the rough sequence, manual ops and risks. Downstream
+sessions never see this conversation — what is not written here is lost.
 
 Then print the next commands and stop. Do not write plans, PRDs or code, and do
 not update the source ticket unless asked.
