@@ -27,15 +27,16 @@ create-plans-from-conversation  capture + split into plans  ← THIS SKILL
 /implement-prd <prd>          next milestone → code, one per session
 ```
 
-## The two rules that drive everything
+## The three rules that drive everything
 
 1. **Self-contained plans (the downstream-session rule).** A future
    `create-prd-from-plan` session has only *one plan file* + the repo + the
-   knowledge base (`docs/knowledge/`) — **never this conversation.** So **every
-   decision from this conversation must be written into the plan(s).** Anything
-   left only in chat is lost. A plan is self-contained when the set {that plan +
-   the overview (if any) + the KB + the repo} is enough to run
-   `create-prd-from-plan` against it.
+   knowledge base (`docs/knowledge/`) — **never this conversation.** So every
+   **currently binding decision and override** must be written into the plan(s).
+   Superseded or optional ideas must not become requirements; record them only
+   as rejected or deferred alternatives. Anything binding left only in chat is
+   lost. A plan is self-contained when the set {that plan + the overview (if
+   any) + the KB + the repo} is enough to run `create-prd-from-plan` against it.
 
 2. **Working-unit decomposition (the cut criterion).** Each plan is a **vertical
    slice that leaves the codebase in a working, releasable state** once its
@@ -44,14 +45,26 @@ create-plans-from-conversation  capture + split into plans  ← THIS SKILL
    (a handful of milestones). Add plans only when genuine complexity or a
    "must stay green here" boundary demands it — never to pad.
 
+3. **Minimum-change planning (the extension-first rule).** Prefer the smallest
+   change that satisfies the explicit outcome. Identify the closest existing
+   implementation and expand it in place; an incomplete implementation is not
+   greenfield. New dependencies, abstractions, shared infrastructure, stronger
+   guarantees or optional hardening require evidence that the existing route
+   cannot meet an acceptance criterion, plus explicit user approval.
+
 ## Process
 
 Work through these in order.
 
 ### 1. Check readiness & resolve inputs
 
-- Re-read the conversation for: the goal, the settled decisions, the rejected
-  alternatives, and any still-open forks. These are the raw material.
+- Re-read the conversation for: the goal, currently binding decisions and
+  overrides, rejected or deferred alternatives, and any still-open forks. These
+  are the raw material.
+- **Simplicity gate.** Identify the nearest existing route, its limitation and
+  the minimum behaviour delta. If the conversation accumulated a stronger design
+  than the outcome requires, present the reduced scope for approval before
+  carrying it into a plan.
 - **Readiness gate.** If the design is underspecified — key decisions unmade,
   major forks unresolved, the shape still vague — **stop and recommend
   `/grill-me` first.** Do not invent the missing design here; this skill captures
@@ -59,7 +72,7 @@ Work through these in order.
   decomposition questions in step 3, but it does not run a full design interview.)
 - Derive `<slug>` from `$ARGUMENTS` (a topic/slug) or from the subject of the
   conversation. Output goes to `docs/plans/<slug>/`.
-- Read `AGENTS.md` / `CLAUDE.md` and the KB index (`docs/knowledge/index.md`).
+- Read `AGENTS.md` / `AGENTS.md` and the KB index (`docs/knowledge/index.md`).
   Treat their conventions as given — don't restate them in plans; point to them.
 
 ### 2. Scan the repo (light grounding only)
@@ -67,6 +80,9 @@ Work through these in order.
 For each area the work touches, capture **current-state pointers** for the plans'
 "Current state" sections — the files, existing patterns, and prior art an
 implementing effort builds on — and note any relevant KB concept IDs.
+
+Record which existing operation, tool, prompt or workflow should be extended.
+Treat a local gap in that route as a delta, not a reason to design a new layer.
 
 Keep this light. **Do not** do deep, per-fork official-docs research — that is
 `create-prd-from-plan`'s job (its step 3), and duplicating it here wastes effort
@@ -86,10 +102,14 @@ below). Produce:
 - any **recurring unit of work** (a shape repeated per instance — e.g. one adapter
   per provider) captured as a single **template plan** (filename prefix `A-`,
   `B-`…) rather than duplicated.
+- one plan by default, and one milestone when a contained change can be
+  implemented and tested as a single working slice.
 
 **Present the breakdown as a table and get the user's approval or adjustments
 before writing anything.** This is the skill's one interactive step. Columns:
-`#`, `plan (slug)`, `delivers`, `depends on`, `order/phase`.
+`#`, `plan (slug)`, `delivers`, `existing route extended`, `new machinery`,
+`depends on`, `order/phase`. `new machinery` should normally be `none`; explain
+why it is unavoidable when it is not.
 
 ### 4. Write the plans
 
@@ -102,13 +122,15 @@ before writing anything.** This is the skill's one interactive step. Columns:
 - Write each plan from [plan-template.md](./plan-template.md), numbered in order
   (`01-…`, `02-…`; templates as `A-…`). If there is only **one** plan and the work
   is simple, write a single plan file and **skip the overview**.
-- Each plan must carry, in full: outcome; in/out of scope; **decisions already
-  settled** (so create-prd's grilling doesn't re-litigate them); **open forks**
-  (so create-prd knows what to research and grill); verified findings so far;
-  current repo state (pointers); a **suggested milestone shape** — a *sketch* to
-  inform create-prd, **not** finished milestones (that is create-prd's job);
-  manual ops (external services/secrets); and risks.
-- Respect `AGENTS.md`/`CLAUDE.md` and UK British English throughout.
+- Each plan must carry, in full: outcome; minimum behaviour delta; existing route
+  to extend; in/out of scope; explicit non-goals; **currently binding decisions**
+  (so create-prd's grilling doesn't re-litigate them); **open forks** (so
+  create-prd knows what to research and grill); evidence for any unavoidable new
+  machinery; verified findings so far; current repo state (pointers); a
+  **suggested milestone shape** — a *sketch* to inform create-prd, **not**
+  finished milestones; manual ops; and risks. Keep optional hardening out of the
+  required scope.
+- Respect `AGENTS.md`/`AGENTS.md` and UK British English throughout.
 
 ### 5. Confirm
 
@@ -127,8 +149,9 @@ Do **not** implement and do **not** write PRDs.
 
 The count follows the work, not a target. Heuristics:
 
-- **One plan** — a single cohesive feature/change that lands green in a handful of
-  milestones. Prefer this; don't split for its own sake.
+- **One plan** — a single cohesive feature/change that lands green. Prefer this;
+  use one milestone when implementation and tests form one contained slice, and
+  don't split for its own sake.
 - **Several plans** — when the work has separable slices, a natural ordering where
   each step leaves the system releasable, or layered/infra work that can't ship in
   one green step. Cut **at** the green boundaries.
@@ -145,3 +168,5 @@ Watch-outs when cutting:
 - **Things that must change together are one plan.** If two areas share a hard
   dependency (a schema both must migrate atomically), don't separate them.
 - **Order by dependency, and make it explicit** in each plan's `Depends on`.
+- **Optional hardening is not a plan.** Exclude it unless the user explicitly
+  chooses it as part of the outcome.
