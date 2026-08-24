@@ -31,13 +31,13 @@ states it — an Asana task, a GitHub issue, or a description typed into the pro
 /implement-prd                    next milestone → code, one per session
 ```
 
-The opening interview is `/grill-me` (see [Matt Pocock](#matt-pocock) below),
-invoked by `start-planning-conversation` once it has read the source and scanned
-the repo.
+`start-planning-conversation` owns the opening interview itself. Once it has read
+the source and scanned the repo, it works through the material decision tree to
+agreement without requiring another interview skill.
 
 | Skill                            | What it does                                                                                                                                                                                                       |
 | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `start-planning-conversation`    | Reads the problem source — an Asana task, a GitHub issue, or a description typed into the prompt — grounds it in the repo, then runs `/grill-me` to a shared understanding. Conversation only — no plans, no code. |
+| `start-planning-conversation`    | Reads the problem source — an Asana task, a GitHub issue, or a description typed into the prompt — grounds it in the repo, then runs a self-contained decision-tree interview to a shared understanding. Conversation only — no plans, no code. |
 | `create-plans-from-conversation` | Turns the design decisions in a conversation into one or more self-contained plan files under `docs/plans/`, each shaped to feed `/create-prd-from-plan`. Produces plans only — no PRDs, no code.                  |
 | `create-prd-from-plan`           | Turns a plan into an agent-executable PRD (`prd.md`) plus a per-PRD `conventions.md`, breaking work into self-contained milestones a fresh session can implement. Documents only.                                  |
 | `implement-prd`                  | Implements the next incomplete milestone from a PRD — one milestone per session, commit when green, no auto-push.                                                                                                  |
